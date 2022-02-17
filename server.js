@@ -6,3 +6,11 @@ const http = require("http").createServer(app);
 http.listen(8080, function () {
   console.log("listening on 8080");
 });
+
+app.get("/", (req, res) => {
+  res.send("hello");
+});
+
+app.use("/api/data", (req, res) => {
+  res.json({ 안녕: "hellol" });
+});
