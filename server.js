@@ -11,6 +11,6 @@ app.get("/", (req, res) => {
   res.send("hello");
 });
 
-app.use("/api/data", (req, res) => {
+app.get("/api", (req, res) => {
   res.json({ 안녕: "hellol" });
 });

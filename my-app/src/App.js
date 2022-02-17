@@ -1,13 +1,15 @@
-import "./App.css";
-import { axios } from "axios";
+import React, { useEffect } from "react";
+import  axios from "axios";
+
 function App() {
+  useEffect(() => {
+    axios.get("/api").then((data) => {
+      console.log(data);
+    });
+  });
   return (
-    <div className="App">
-      <button onclick={() => {
-      axios.get("/api").then((res)=>{
-      console.log(res.data)
-      })
-      }}>버튼 누르기</button>
+    <div>
+      <button>dsd</button>
     </div>
   );
 }
