@@ -1,5 +1,8 @@
 import React, { useEffect } from "react";
-import  axios from "axios";
+import axios from "axios";
+import NavMain from "./components/nav";
+import { Link, Route, Routes } from "react-router-dom";
+
 
 function App() {
   useEffect(() => {
@@ -9,7 +12,16 @@ function App() {
   });
   return (
     <div>
-      <button>dsd</button>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div>
+              <NavMain />
+            </div>
+          }
+        />
+      </Routes>
     </div>
   );
 }
