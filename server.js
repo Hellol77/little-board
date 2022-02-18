@@ -1,10 +1,15 @@
 const express = require("express");
 const path = require("path");
 const app = express();
+const MongoClient = require("mongodb").MongoClient;
+require("dotenv").config();
 
-const http = require("http").createServer(app);
-http.listen(8080, function () {
-  console.log("listening on 8080");
+MongoClient.connect(process.env.DB_URL, function (error, client) {
+  if (error) return console.log(error);
+  const http = require("http").createServer(app);
+  http.listen(process.env.PORT, function () {
+    console.log("listening on 8080");
+  });
 });
 
 app.get("/", (req, res) => {
