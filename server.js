@@ -3,7 +3,7 @@ const path = require("path");
 const app = express();
 const MongoClient = require("mongodb").MongoClient;
 const mongoose = require("mongoose");
-const User = require("./routes/User");
+const User = require("./models/User");
 const { userInfo } = require("os");
 var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
@@ -39,6 +39,35 @@ app.post("/api/users/register", (req, res) => {
 
       return res.status(200).json({
         success: true,
+      });
+    });
+  });
+});
+
+app.post("/api/users/login", (req, res) => {
+  //로그인 처리
+  User.findOne({ email: req.body.email }, (error, user) => {
+    //이메일이 데이터베이스에 있는지 확인
+    if (!user) {
+      return res.json({
+        loginSuccess: false,
+        message: "이메일을 잘못 입력했습니다.",
+      });
+    }
+    user.comparePassword(req.body.password, (error, isMatch) => {
+      //이메일이 데이터베이스에 있다면 비밀번호가 맞는 비밀번호인지 확인
+      if (!isMatch) {
+        return res.json({
+          loginSuccess: false,
+          message: "비밀번호를 잘못 입력하셨습니다.",
+        });
+      }
+      user.generateToken((error, user) => {
+        if (error) return res.status(400).send(error);
+        res
+          .cookie("x_auth", user.token)
+          .status(200)
+          .json({ loginSuccess: true, userId: user._id });
       });
     });
   });
