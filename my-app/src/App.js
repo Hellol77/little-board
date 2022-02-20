@@ -9,7 +9,7 @@ function App() {
     axios.get("/api").then((data) => {
       console.log(data);
     });
-  });
+  },[]);
   return (
     <div>
       <Routes>
@@ -25,5 +25,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
