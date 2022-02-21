@@ -7,6 +7,7 @@ const User = require("./models/User");
 const { userInfo } = require("os");
 var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
+const http = require("http").createServer(app);
 require("dotenv").config();
 
 app.use(bodyParser.urlencoded({ extended: false })); //application/x-www-form-urlencoded
@@ -20,7 +21,12 @@ mongoose
     // useFindAndModify: false,
     // useCreateIndex: true,
   })
-  .then(() => console.log("MongoDB Connected..."))
+  .then(() => {
+    console.log("MongoDB Connected...");
+    http.listen(process.env.PORT, function () {
+      console.log("listening on 8080");
+    });
+  })
   .catch((err) => console.log(err));
 
 // MongoClient.connect(process.env.DB_URL, function (error, client) {
@@ -64,7 +70,7 @@ app.post("/api/users/login", (req, res) => {
       }
       user.generateToken((error, user) => {
         if (error) return res.status(400).send(error);
-        res
+        res //토큰을 쿠키에 저장
           .cookie("x_auth", user.token)
           .status(200)
           .json({ loginSuccess: true, userId: user._id });
