@@ -9,7 +9,7 @@ const userSchema = mongoose.Schema({
   email: {
     type: String,
     trim: true, // space를 없애주는 역할
-    unique: 1,
+    unique: 1, //같은 값은 하나만 존재할 수 있다.
   },
   password: {
     type: String,
@@ -20,7 +20,7 @@ const userSchema = mongoose.Schema({
   },
   role: {
     type: Number,
-    default: 0,
+    default: 0, //정해지지 않는 다면 0
   },
   image: String,
   token: {
@@ -54,7 +54,7 @@ userSchema.methods.comparePassword = function (plainpassword, cb) {
 };
 userSchema.methods.generateToken = function (cb) {
   let user = this;
-  let token = jwt.sign(user._id.toHexString(), "secretToken");
+  let token = jwt.sign(user._id.toHexString(), process.env.SECRET_TOKEN);
   user.token = token;
   user.save(function (error, user) {
     if (error) return cb(err);
@@ -62,6 +62,17 @@ userSchema.methods.generateToken = function (cb) {
   });
 };
 
+userSchema.statics.findByToken = function (token, cb) {
+  //토큰을 사용해서 유저를 찾음
+  let user = this;
+  jwt.verify(token, process.env.SECRET_TOKEN, function (error, decoded) {
+    if (error) return cb(error);
+    user.findOne({ _id: decoded, token: token }, function (error, user) {
+      if (error) return cb(error);
+      cb(null, user);
+    });
+  });
+};
 
 const User = mongoose.model("User", userSchema);
 module.exports = { User };
