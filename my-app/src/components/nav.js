@@ -13,7 +13,7 @@ function NavMain() {
     >
       <Container>
         <Navbar.Brand as={Link} to="/">
-          Playlist
+          Little Board
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
@@ -31,9 +31,9 @@ function NavMain() {
             </NavDropdown>
           </Nav>
           <Nav>
-            <Nav.Link href="#deets">More deets</Nav.Link>
+            <Nav.Link href="#deets"></Nav.Link>
             <Nav.Link eventKey={2} href="#memes">
-              Dank memes
+              로그아웃
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
