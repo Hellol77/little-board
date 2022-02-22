@@ -7,6 +7,7 @@ const User = require("./models/User");
 const { userInfo } = require("os");
 var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
+const { auth } = require("./middleware/auth");
 const http = require("http").createServer(app);
 require("dotenv").config();
 
@@ -76,6 +77,18 @@ app.post("/api/users/login", (req, res) => {
           .json({ loginSuccess: true, userId: user._id });
       });
     });
+  });
+});
+app.get("/api/users/auth", auth, function (req, res) {
+  res.status(200).json({
+    _id: req.user._id,
+    isAdmin: req.user.role === 0 ? false : true,
+    isAuth: true,
+    email: req.user.email,
+    name: req.user.name,
+    lastname: req.user.lastname,
+    role: req.user.role,
+    image: req.user.image,
   });
 });
 
