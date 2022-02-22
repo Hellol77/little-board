@@ -92,6 +92,13 @@ app.get("/api/users/auth", auth, function (req, res) {
   });
 });
 
+app.get("/api/users/logout", auth, function (req, res) {
+  User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (error, user) => {
+    if (error) return res.json({ success: false, error });
+    return res.status(200).json({ success: true });
+  });
+});
+
 app.get("/", (req, res) => {
   res.send("hello");
 });
