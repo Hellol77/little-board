@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
+import { withRouter } from "react-router-dom";
 
 const StyledBody = styled.div`
   @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap");
@@ -59,16 +60,14 @@ const StyledCenterFormTextDivInput = styled.input`
   }
 `;
 const StyledCenterFormTextDivLabel = styled.label`
-  & {
-    position: absolute;
-    top: 50%;
-    left: 5px;
-    color: #adadad;
-    transform: translateY(-50%);
-    font-size: 16px;
-    pointer-events: none;
-    transition: 0.5s;
-  }
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  color: #adadad;
+  transform: translateY(-50%);
+  font-size: 16px;
+  pointer-events: none;
+  transition: 0.5s;
 `;
 const StyledCenterFormTextDivSpan = styled.span`
   &::before {
@@ -113,6 +112,14 @@ const StyledSignUpLink = styled.div`
   }
 `;
 function LoginForm() {
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
+  const onEmailHandler = (event) => {
+    setEmail(event.currentTarget.value);
+  };
+  const onPasswordHandler = (event) => {
+    setPassword(event.currentTarget.value);
+  };
   return (
     <StyledBody>
       <StyledCenter>
@@ -131,7 +138,9 @@ function LoginForm() {
             </StyledCenterFormTextDivLabel>
           </StyledCenterFormTextDiv>
           <StyledCenterFormSubmit type="submit" value="Login" />
-          <StyledSignUpLink><a href='/'>회원가입</a></StyledSignUpLink>
+          <StyledSignUpLink>
+            <a href="/register">회원가입</a>
+          </StyledSignUpLink>
         </StyledCenterForm>
       </StyledCenter>
     </StyledBody>
